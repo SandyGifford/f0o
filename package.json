@@ -1,0 +1,26 @@
+{
+	"name": "f0o",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"devServer": "ts-node-dev ./src/server/server.ts",
+		"server": "ts-node ./src/server/server.ts",
+		"lint": "eslint --no-fix ./**/*.ts",
+		"lintFix": "eslint --fix ./**/*.ts"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@types/pg": "^8.6.1",
+		"@typescript-eslint/eslint-plugin": "^5.2.0",
+		"@typescript-eslint/parser": "^5.2.0",
+		"dotenv": "^10.0.0",
+		"eslint": "^8.1.0",
+		"node-fetch": "^3.0.0",
+		"pg": "^8.7.1",
+		"ts-node": "^10.4.0",
+		"ts-node-dev": "^1.1.8",
+		"typescript": "^4.4.4"
+	}
+}
