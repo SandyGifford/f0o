@@ -1,7 +1,7 @@
 import { Client, QueryResult } from "pg";
 import StringUtils from "./StringUtils";
 
-export type PGDataType = "BOOLEAN" | "CHAR" | "VARCHAR" | "TEXT" | "NUMERIC" | "INTEGER" | "SERIAL" | "DATE" | "TIMESTAMP" | "TIME" | "UUID" | "JSON" | "HSTORE";
+export type PGDataType = "BOOLEAN" | "CHAR" | "VARCHAR" | "TEXT" | "NUMERIC" | "INTEGER" | "BIGINT" | "SERIAL" | "BIGSERIAL" | "DATE" | "TIMESTAMP" | "TIME" | "UUID" | "JSON" | "HSTORE";
 
 export interface PGField {
 	fieldName: string;
@@ -57,8 +57,6 @@ export default class PGUtils {
 				return r;
 			});
 
-		console.log(r);
-
 		return Promise.resolve(r);
 	}
 
@@ -84,12 +82,12 @@ export default class PGUtils {
 
 	public static async createF0oTables(client: Client): Promise<void> {
 		return PGUtils.createTable(client, "orgs", [
-			{ fieldName: "ein", dataType: "SERIAL", unique: true, primaryKey: true, notNull: true },
+			{ fieldName: "ein", dataType: "BIGINT", unique: true, primaryKey: true, notNull: true },
 			{ fieldName: "name", dataType: "VARCHAR", length: 100, notNull: true },
 			{ fieldName: "city", dataType: "VARCHAR", length: 100, notNull: true },
 			{ fieldName: "state", dataType: "VARCHAR", length: 100, notNull: true },
 			{ fieldName: "country", dataType: "VARCHAR", length: 100, notNull: true },
-			{ fieldName: "codes", dataType: "VARCHAR", length: 5, array: true, notNull: true },
+			{ fieldName: "codes", dataType: "TEXT", array: true, notNull: true },
 		])
 			.then(() => {/** */});
 	}
@@ -112,7 +110,7 @@ export default class PGUtils {
 	}
 
 	public static async startF0o(): Promise<Client> {
-		await PGUtils.dropF0oDb();
+		// await PGUtils.dropF0oDb();
 		let client = PGUtils.getF0oClient();
 
 		return client.connect()
@@ -122,7 +120,6 @@ export default class PGUtils {
 					case "3D000":
 						return PGUtils.createF0oDb()
 							.then(async newClient => {
-								await client.end();
 								client = newClient;
 							});
 					default:
