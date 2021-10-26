@@ -82,8 +82,20 @@ export default class PGUtils {
 			.then(() => client.end());
 	}
 
+	public static async createF0oTables(client: Client): Promise<void> {
+		return PGUtils.createTable(client, "orgs", [
+			{ fieldName: "ein", dataType: "SERIAL", unique: true, primaryKey: true, notNull: true },
+			{ fieldName: "name", dataType: "VARCHAR", length: 100, notNull: true },
+			{ fieldName: "city", dataType: "VARCHAR", length: 100, notNull: true },
+			{ fieldName: "state", dataType: "VARCHAR", length: 100, notNull: true },
+			{ fieldName: "country", dataType: "VARCHAR", length: 100, notNull: true },
+			{ fieldName: "codes", dataType: "VARCHAR", length: 5, array: true, notNull: true },
+		])
+			.then(() => {/** */});
+	}
+
 	public static async createF0oDb(): Promise<Client> {
-		console.log(`creating database "${DB_NAME}"`);
+		console.log(`creating f0o database "${DB_NAME}"`);
 
 		const client = PGUtils.getDefaultClient();
 
@@ -94,14 +106,7 @@ export default class PGUtils {
 			.then(() => PGUtils.getF0oClient())
 			.then(async newClient => {
 				await newClient.connect();
-				await PGUtils.createTable(newClient, "orgs", [
-					{ fieldName: "ein", dataType: "SERIAL", unique: true, primaryKey: true, notNull: true },
-					{ fieldName: "name", dataType: "VARCHAR", length: 100, notNull: true },
-					{ fieldName: "city", dataType: "VARCHAR", length: 100, notNull: true },
-					{ fieldName: "state", dataType: "VARCHAR", length: 100, notNull: true },
-					{ fieldName: "country", dataType: "VARCHAR", length: 100, notNull: true },
-					{ fieldName: "codes", dataType: "VARCHAR", length: 5, array: true, notNull: true },
-				]);
+				await PGUtils.createF0oTables(newClient);
 				return newClient;
 			});
 	}
@@ -116,7 +121,10 @@ export default class PGUtils {
 				switch (code) {
 					case "3D000":
 						return PGUtils.createF0oDb()
-							.then(newClient => client = newClient);
+							.then(async newClient => {
+								await client.end();
+								client = newClient;
+							});
 					default:
 						throw e;
 				}
