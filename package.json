@@ -4,25 +4,32 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"devServer": "ts-node-dev ./src/server/server.ts",
-		"server": "ts-node ./src/server/server.ts",
+		"init": "ts-node ./src/scripts/init.ts",
+		"download": "ts-node ./src/scripts/download.ts",
+		"importToDb": "ts-node ./src/scripts/importToDb.ts",
+		"ingest": "ts-node ./src/scripts/ingest.ts",
+		"resetAndIngest": "ts-node ./src/scripts/resetAndIngest.ts",
 		"lint": "eslint --no-fix ./**/*.ts",
 		"lintFix": "eslint --fix ./**/*.ts"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@types/fs-extra": "^9.0.13",
 		"@types/n-readlines": "^1.0.2",
 		"@types/pg": "^8.6.1",
+		"@types/uuid": "^8.3.1",
 		"@typescript-eslint/eslint-plugin": "^5.2.0",
 		"@typescript-eslint/parser": "^5.2.0",
 		"dotenv": "^10.0.0",
 		"eslint": "^8.1.0",
+		"fs-extra": "^10.0.0",
 		"n-readlines": "^1.0.1",
-		"node-fetch": "^3.0.0",
+		"node-stream-zip": "^1.15.0",
 		"pg": "^8.7.1",
 		"ts-node": "^10.4.0",
 		"ts-node-dev": "^1.1.8",
-		"typescript": "^4.4.4"
+		"typescript": "^4.4.4",
+		"uuid": "^8.3.2"
 	}
 }
