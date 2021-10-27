@@ -51,7 +51,7 @@ export default async function importToDb(): Promise<void> {
 	}
 
 	await sendLines();
-	client.end();
+	await client.end();
 
 	console.log(`${linesFailed + linesWritten} line(s) read (${linesWritten} written, ${linesFailed} failed)`);
 	console.log("database import done");
