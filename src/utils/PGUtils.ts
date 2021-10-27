@@ -1,6 +1,5 @@
 import { Client, QueryResult } from "pg";
 import { DB_HOST, DB_PASSWORD, DB_PORT, DB_USER } from "../consts";
-import LoopUtils from "./LoopUtils";
 import StringUtils from "./StringUtils";
 
 export type PGDataType = "BOOLEAN" | "CHAR" | "VARCHAR" | "TEXT" | "NUMERIC" | "INTEGER" | "BIGINT" | "SERIAL" | "BIGSERIAL" | "DATE" | "TIMESTAMP" | "TIME" | "UUID" | "JSON" | "HSTORE";
@@ -48,7 +47,10 @@ export default class PGUtils {
 		return Promise.resolve(r);
 	}
 
-	public static makeRowSender<T extends any[]>(client: Client, queryBuilder: (valueString: string) => string): [add: (line: T) => void, send: () => Promise<QueryResult>, lineCount: () => number] {
+	public static makeRowSender<T extends any[]>(
+		client: Client,
+		queryBuilder: (valueString: string) => string
+	): [add: (line: T) => void, send: () => Promise<QueryResult>, lineCount: () => number] {
 		const bufferedLines: T[] = [];
 
 		return [
@@ -57,12 +59,12 @@ export default class PGUtils {
 				const bLines = [...bufferedLines];
 				bufferedLines.splice(0, bufferedLines.length);
 
-				const valuesStr = LoopUtils.mapNTimes(bLines.length, n => {
-					const base = n * 6;
-					return `($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6})`;
+				const valueStr = bLines.map((line, n) => {
+					const base = n * line.length;
+					return `(${line.map((val, i) => `$${base + i + 1}`).join(",")})`;
 				}).join(",");
 
-				const query = queryBuilder(valuesStr);
+				const query = queryBuilder(valueStr);
 
 				const values: T[] = bLines.reduce((flat, line) => {
 					flat.push(...line);

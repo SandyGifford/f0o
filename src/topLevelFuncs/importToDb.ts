@@ -10,6 +10,7 @@ type OrgListParsedLine = [number, string, string, string, string, string[]];
 
 export default async function importToDb(): Promise<void> {
 	const client = await F0oUtils.getF0oClient();
+	await client.connect();
 
 	let linesWritten = 0;
 	let linesFailed = 0;
@@ -50,8 +51,8 @@ export default async function importToDb(): Promise<void> {
 	}
 
 	await sendLines();
+	client.end();
 
 	console.log(`${linesFailed + linesWritten} line(s) read (${linesWritten} written, ${linesFailed} failed)`);
 	console.log("database import done");
-	client.end();
 }
