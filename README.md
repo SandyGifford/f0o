@@ -19,13 +19,14 @@ From the f0o directory, run `npm i` to install node packages.
 
 F0o needs a few environment variables to run.  You can either add these directly to the environment, or use a `.env` file in the f0o directory.
 
-|var name|description|required?|
-|-:|:-|:-:|
-|DB_NAME|Name of the database you want to send data to|✓|
-|DB_USER|Database user name|✓|
-|DB_PASSWORD|Database password|✓|
-|DB_PORT_STR|Database port|✓|
-|DB_HOST|Database host name (default: `localhost`)||
+|var name|description|required?|default|
+|-:|:-|:-:|:-|
+|DB_NAME|Name of the database you want to send data to|✓||
+|DB_USER|Database user name|✓||
+|DB_PASSWORD|Database password|✓||
+|DB_PORT_STR|Database port|✓||
+|DB_HOST|Database host name||`localhost`|
+|TEMP_DIR|Directory where temp files are stored (default)||`[f0o_dir]/tmp/`|
 
 ### initialize
 
