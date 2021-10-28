@@ -27,6 +27,8 @@ F0o needs a few environment variables to run.  You can either add these directly
 |DB_PORT_STR|Database port|✓||
 |DB_HOST|Database host name||`localhost`|
 |TEMP_DIR|Directory where temp files are stored (default)||`[f0o_dir]/tmp/`|
+|ORG_LIST_ZIP_URL|URL to the IRS publication 78 zip file.||`https://apps.irs.gov/pub/epostcard/data-download-pub78.zip`|
+|ORG_DETAILS_ZIP_URL|URL to the IRS form 990 Series zip file (XML format).||`https://apps.irs.gov/pub/epostcard/990/990AllXML.zip`|
 
 ### initialize
 
